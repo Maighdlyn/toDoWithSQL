@@ -1,0 +1,16 @@
+{
+  "name": "to-do-with-sql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "npmScript.js",
+  "scripts": {
+    "schema": "psql < database/schema.sql",
+    "test": "mocha"
+  },
+  "author": "Emma",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2"
+  }
+}
