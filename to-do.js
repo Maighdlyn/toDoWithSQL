@@ -82,7 +82,7 @@ if(require.main === module) {
   const nodeInput2 = process.argv[4]
 
   toDo(nodeQuery, nodeInput1, nodeInput2)
-    .then((data) => {
+    .then(function(data) {
       console.log(data)
       pgp.end()
   })
