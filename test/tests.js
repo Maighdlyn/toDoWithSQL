@@ -52,22 +52,31 @@ describe("Benchmark: Command Line Todo List with SQL", function() {
     })
   })
 
-  // describe('"update" method updates task', function(){
-  //   it('updates task 1 in database', function(){
-  //     return toDo('update', 1, 'updated task')
-  //       .then(() => selectAll())
-  //       .then(function(data){
-  //         pgp.end()
-  //         expect(data).to.eql([])
-  //       })
-  //   })
-  //   it('prints "Task 1 has been deleted."', function(){
-  //     return toDo('delete', 1)
-  //       .then(function(data, moredata){
-  //         pgp.end()
-  //         expect(data).to.eql("Task 1 has been deleted.")
-  //       })
-  //   })
-  // })
+  describe('"update" method updates task', function(){
+    it('updates task 1 in database', function(){
+      return toDo('update', 1, 'updated task')
+        .then(() => selectAll())
+        .then(function(data){
+          pgp.end()
+          expect(data).to.eql([ { id: 1, task: 'updated task' } ])
+        })
+    })
+    it('prints "Task 1 has been changed to "updated task"."', function(){
+      return toDo('update', 1, 'updated task')
+        .then(function(data){
+          pgp.end()
+          expect(data).to.eql('Task 1 has been changed to "updated task".')
+        })
+    })
+  })
 
+  describe('"list" method prints task list', function(){
+    it('prints task list', function(){
+      return toDo('list')
+        .then(function(data){
+          pgp.end()
+          expect(data).to.eql('ID Description \n-- -----------\n1 first list item')
+        })
+    })
+  })
 })

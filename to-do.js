@@ -61,16 +61,6 @@ function toDo(query, input1, input2) {
       })
   }
 
-  // if(query === 'truncate') {
-  //   return db.none(queries.truncate)
-  //     .then(function(){
-  //       return
-  //     })
-  //     .catch(function(error) {
-  //       return 'Error'
-  //     })
-  // }
-
   else {
     return Promise.resolve("Command not found\nTo view instructions, type the following into your command line: \nnode to-do.js help")
   }
