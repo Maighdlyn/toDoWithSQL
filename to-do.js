@@ -1,8 +1,16 @@
 const queries = require('./database/queries.js')
 const pgPromise = require('pg-promise')
 const pgp = pgPromise()
+
+let databaseConnectionString
+if(require.main === module){
+  databaseConnectionString = 'to_do_list'
+} else {
+  databaseConnectionString = 'to_do_list_test'
+  // console.log('test database')
+}
 const db = pgp({
-	database: 'to_do_list'
+  database: databaseConnectionString
 })
 
 const instructions = {
@@ -30,18 +38,12 @@ function toDo(query, input1, input2) {
         }
         return output
       })
-      .catch(function(err) {
-        return 'Error'
-      })
   }
 
   if(query === 'add') {
     return db.none(queries.add, [input1])
       .then(function() {
         return 'Created task "' + input1 + '".'
-      })
-      .catch(function(error) {
-        return 'Error'
       })
   }
 
@@ -50,9 +52,6 @@ function toDo(query, input1, input2) {
       .then(function(){
         return 'Task ' + input1 + ' has been deleted.'
       })
-      .catch(function(error) {
-        return 'Error'
-      })
   }
 
   if(query === 'update') {
@@ -60,10 +59,17 @@ function toDo(query, input1, input2) {
       .then(function(){
         return 'Task ' + input1 + ' has been changed to "' + input2 + '".'
       })
-      .catch(function(error) {
-        return 'Error'
-      })
   }
+
+  // if(query === 'truncate') {
+  //   return db.none(queries.truncate)
+  //     .then(function(){
+  //       return
+  //     })
+  //     .catch(function(error) {
+  //       return 'Error'
+  //     })
+  // }
 
   else {
     return Promise.resolve("Command not found\nTo view instructions, type the following into your command line: \nnode to-do.js help")
@@ -78,6 +84,11 @@ if(require.main === module) {
   toDo(nodeQuery, nodeInput1, nodeInput2)
     .then((data) => {
       console.log(data)
-      process.exit(0)
+      pgp.end()
   })
+}
+
+module.exports = {
+  toDo,
+  db
 }
