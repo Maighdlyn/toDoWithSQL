@@ -3,7 +3,7 @@ const queries = {
   list: 'SELECT * FROM to_do ORDER BY id',
   update: 'UPDATE to_do SET task = $2 WHERE id = $1',
   delete: 'DELETE FROM to_do WHERE id = $1',
-  idFromTask: 'SELECT id FROM to_do WHERE task = $1'
+  truncate: 'TRUNCATE to_do, to_do RESTART IDENTITY'
 }
 
 module.exports = queries
