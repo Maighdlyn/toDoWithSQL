@@ -4,7 +4,7 @@ const pgPromise = require('pg-promise')
 const pgp = pgPromise()
 
 let databaseConnectionString
-if(require.main === module){
+if(require.main === module) {
   databaseConnectionString = 'to_do_list'
 } else {
   databaseConnectionString = 'to_do_list_test'
@@ -24,7 +24,7 @@ function toDo(query, input1, input2) {
 
   if(query === 'list') {
     return db.manyOrNone(queries.list)
-      .then(function(data){
+      .then(function(data) {
         let output = 'ID Description \n-- -----------'
         for (i=0; i<data.length; i++) {
           output += '\n' + data[i].id + ' ' + data[i].task
@@ -42,14 +42,14 @@ function toDo(query, input1, input2) {
 
   if(query === 'delete') {
     return db.none(queries.delete, [input1])
-      .then(function(){
+      .then(function() {
         return 'Task ' + input1 + ' has been deleted.'
       })
   }
 
   if(query === 'update') {
     return db.none(queries.update, [input1, input2])
-      .then(function(){
+      .then(function() {
         return 'Task ' + input1 + ' has been changed to "' + input2 + '".'
       })
   }
