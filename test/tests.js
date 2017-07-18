@@ -1,4 +1,6 @@
 const expect = require('chai').expect
+// you can import these things together in one statement like this:
+// const {toDo, db} = require('../to-do.js')
 const {toDo} = require('../to-do.js')
 const {db} = require('../to-do.js')
 const pgPromise = require('pg-promise')
@@ -9,7 +11,12 @@ function selectAll () {
 }
 
 beforeEach(function() {
+  // great job resetting your database before every test!
   return db.none('TRUNCATE to_do, to_do RESTART IDENTITY; INSERT INTO to_do (task) VALUES (\'first list item\')')
+    // all of these pgp.end() calls in this file should be removed. You only call
+    // that to close your connection to the database altogeter, and in most cases
+    // you don't need to do that manually, it will happen on its own when node
+    // exits
     .then(function() {
       pgp.end()
     })

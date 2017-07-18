@@ -3,6 +3,8 @@ const instructions = require('./instructions.js')
 const pgPromise = require('pg-promise')
 const pgp = pgPromise()
 
+// a better option here would be to use the NODE_ENV environment variable to
+// check if your in a test environment
 let databaseConnectionString
 if(require.main === module) {
   databaseConnectionString = 'to_do_list'
@@ -14,6 +16,8 @@ const db = pgp({
 })
 
 function toDo(query, input1, input2) {
+  // a case statement is probably better suited to this task of checking for
+  // the valus of the query parameter than this seriese of ifs
   if(query === 'help') {
     output = ''
     for(var key in instructions) {
@@ -29,6 +33,12 @@ function toDo(query, input1, input2) {
         for (i=0; i<data.length; i++) {
           output += '\n' + data[i].id + ' ' + data[i].task
         }
+        // Another way to do this would be:
+        // const header = 'ID Description \n-- -----------\n'
+        // const rows = data
+        //   .map(item => item.id + ' ' + item.task)
+        //   .join('\n')
+        // return header + rows
         return output
       })
   }
